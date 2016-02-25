@@ -100,3 +100,8 @@ function printDetails(curtItem) {
     '，数量：' + curtItem.details.count + curtItem.details.item.unit +
     '，单价：' + formatNumber(curtItem.details.item.price) + '(元)，小计：' + formatNumber(curtItem.subCost) + '(元)\n';
 }
+
+function printReceipt(inputs) {
+  var receipt = getReceipt(saleCalculate(getItemsDetail(countNumber(inputs))));
+  console.log(receipt);
+}
