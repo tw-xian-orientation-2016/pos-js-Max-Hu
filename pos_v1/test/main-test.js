@@ -37,10 +37,18 @@ describe('pos', function() {
   // });
 
   it('should get number correctly', function() {
-
     var items = countNumber(inputs);
     expect(items["ITEM000001"]).toEqual(5);
     expect(items["ITEM000003"]).toEqual(2);
     expect(items["ITEM000005"]).toEqual(3);
   });
+
+  it('should get item detail correctly', function() {
+    var items = getItemsDetail(countNumber(inputs));
+    var itemList = loadAllItems();
+    expect(items[0].item.name).toEqual(itemList[1].name);
+    expect(items[1].item.name).toEqual(itemList[3].name);
+    expect(items[2].item.name).toEqual(itemList[5].name);
+  });
+
 });
