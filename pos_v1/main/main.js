@@ -15,3 +15,19 @@ function countNumber(code) {
   }
   return map;
 }
+
+function getItemsDetail(map) {
+  var itemList = loadAllItems();
+  var itemDetails = [];
+  for (var barcode in map) {
+    var detail = new Object();
+    for (var i = 0; i < itemList.length; i++) {
+      if (barcode === itemList[i].barcode) {
+        detail.item = itemList[i];
+        detail.count = map[barcode];
+        itemDetails.push(detail);
+      }
+    }
+  }
+  return itemDetails;
+}
