@@ -46,9 +46,16 @@ describe('pos', function() {
   it('should get item detail correctly', function() {
     var items = getItemsDetail(countNumber(inputs));
     var itemList = loadAllItems();
-    expect(items[0].item.name).toEqual(itemList[1].name);
-    expect(items[1].item.name).toEqual(itemList[3].name);
-    expect(items[2].item.name).toEqual(itemList[5].name);
+    expect(items[0].item.barcode).toEqual(itemList[1].barcode);
+    expect(items[1].item.barcode).toEqual(itemList[3].barcode);
+    expect(items[2].item.barcode).toEqual(itemList[5].barcode);
+  });
+
+  it('should get item detail correctly', function() {
+    var curtItems = saleCalculate(getItemsDetail(countNumber(inputs)));
+    expect(curtItems[0].subCost).toEqual(12);
+    expect(curtItems[1].subCost).toEqual(30);
+    expect(curtItems[2].subCost).toEqual(9);
   });
 
 });
