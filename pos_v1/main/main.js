@@ -20,7 +20,7 @@ function getItemsDetail(map) {
   var itemList = loadAllItems();
   var itemDetails = [];
   for (var barcode in map) {
-    var detail = new Object();
+    var detail = {};
     for (var i = 0; i < itemList.length; i++) {
       if (barcode === itemList[i].barcode) {
         detail.item = itemList[i];
@@ -37,7 +37,7 @@ function saleCalculate(itemDetails) {
   var curtItems = [];
   for (var n in itemDetails){
     var buyNumber = getBuyNumber(getRole(itemDetails[n].item.barcode,promotions),itemDetails[n].count);
-    var curtItem = new Object();
+    var curtItem = {};
     curtItem.details = itemDetails[n];
     curtItem.subCost = itemDetails[n].item.price*buyNumber;
     curtItem.subSaving = itemDetails[n].item.price*(itemDetails[n].count - buyNumber);
@@ -60,7 +60,7 @@ function getBuyNumber(roleType,count) {
 }
 
 function createCurtItems(itemDetails,subCost,subSaving) {
-  var curtItem = new Object();
+  var curtItem = {};
   curtItem.details = itemDetails;
   curtItem.subCost = subCost;
   curtItem.subSaving = subSaving;
