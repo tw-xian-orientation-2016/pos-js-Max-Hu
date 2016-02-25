@@ -46,6 +46,11 @@ function saleCalculate(itemDetails) {
   return curtItems;
 }
 
+function formatNumber(number) {
+  var formated = new Number(number);
+  return formated.toFixed(2);
+}
+
 function getBuyNumber(roleType,count) {
   if (roleType === 'BUY_TWO_GET_ONE_FREE') {
     return count - Math.floor(count/3);
@@ -54,11 +59,11 @@ function getBuyNumber(roleType,count) {
   }
 }
 
-function createCurtItems(itemDetails,subcost,subsaving) {
+function createCurtItems(itemDetails,subCost,subSaving) {
   var curtItem = new Object();
   curtItem.details = itemDetails;
-  curtItem.subcost = subcost;
-  curtItem.subsaving = subsaving;
+  curtItem.subCost = subCost;
+  curtItem.subSaving = subSaving;
   return curtItem;
 }
 
@@ -71,4 +76,27 @@ function getRole(barcode,promotions) {
       }
     }
   }
+}
+
+function printReceipt(curtItems) {
+  var totalCost = 0;
+  var totalSaving = 0;
+  var output = '***<没钱赚商店>收据***\n' ;
+  for (var n in curtItems) {
+    output += printDetails(curtItems[n],output);
+    totalCost += curtItems[n].subCost;
+    totalSaving += curtItems[n].subSaving;
+  }
+  output +=
+    '----------------------\n' +
+    '总计：' + formatNumber(totalCost) + '(元)\n' +
+    '节省：' + formatNumber(totalSaving) + '(元)\n' +
+    '**********************';
+  console.log(output);
+}
+
+function printDetails(curtItem,output) {
+  return '名称：' + curtItem.details.item.name +
+    '，数量：' + curtItem.details.count + curtItem.details.item.unit +
+    '，单价：' + formatNumber(curtItem.details.item.price) + '(元)，小计：' + formatNumber(curtItem.subCost) + '(元)\n';
 }
