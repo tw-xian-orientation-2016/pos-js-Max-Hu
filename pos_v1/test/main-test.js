@@ -51,7 +51,7 @@ describe('pos', function() {
     expect(items[2].item.name).toEqual(itemList[5].name);
   });
 
-  it('should get item detail correctly', function() {
+  it('should get item subtotal correctly', function() {
     var curtItems = saleCalculate(getItemsDetail(countNumber(inputs)));
     expect(curtItems[0].subCost).toEqual(12);
     expect(curtItems[1].subCost).toEqual(30);
