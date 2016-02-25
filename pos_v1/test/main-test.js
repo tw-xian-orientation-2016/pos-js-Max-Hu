@@ -36,7 +36,7 @@ describe('pos', function() {
     expect(console.log).toHaveBeenCalledWith(expectText);
   });
 
-  it('should get number correctly', function() {
+  it('should get count correctly', function() {
     var items = countNumber(inputs);
     expect(items["ITEM000001"]).toEqual(5);
     expect(items["ITEM000003"]).toEqual(2);
