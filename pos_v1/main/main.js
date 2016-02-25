@@ -78,24 +78,24 @@ function getRole(barcode,promotions) {
   }
 }
 
-function printReceipt(curtItems) {
+function getReceipt(curtItems) {
   var totalCost = 0;
   var totalSaving = 0;
-  var output = '***<没钱赚商店>收据***\n' ;
+  var receipt = '***<没钱赚商店>收据***\n' ;
   for (var n in curtItems) {
-    output += printDetails(curtItems[n],output);
+    receipt += printDetails(curtItems[n]);
     totalCost += curtItems[n].subCost;
     totalSaving += curtItems[n].subSaving;
   }
-  output +=
+  receipt +=
     '----------------------\n' +
     '总计：' + formatNumber(totalCost) + '(元)\n' +
     '节省：' + formatNumber(totalSaving) + '(元)\n' +
     '**********************';
-  console.log(output);
+  return receipt;
 }
 
-function printDetails(curtItem,output) {
+function printDetails(curtItem) {
   return '名称：' + curtItem.details.item.name +
     '，数量：' + curtItem.details.count + curtItem.details.item.unit +
     '，单价：' + formatNumber(curtItem.details.item.price) + '(元)，小计：' + formatNumber(curtItem.subCost) + '(元)\n';
