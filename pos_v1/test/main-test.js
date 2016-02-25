@@ -21,7 +21,7 @@ describe('pos', function() {
 
     spyOn(console, 'log');
 
-    printReceipt(saleCalculate(getItemsDetail(countNumber(inputs))));
+    printReceipt(inputs);
 
     var expectText =
       '***<没钱赚商店>收据***\n' +
