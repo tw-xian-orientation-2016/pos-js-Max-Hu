@@ -31,3 +31,44 @@ function getItemsDetail(map) {
   }
   return itemDetails;
 }
+
+function saleCalculate(itemDetails) {
+  var promotions = loadPromotions();
+  var curtItems = [];
+  for (var n in itemDetails){
+    var buyNumber = getBuyNumber(getRole(itemDetails[n].item.barcode,promotions),itemDetails[n].count);
+    var curtItem = new Object();
+    curtItem.details = itemDetails[n];
+    curtItem.subCost = itemDetails[n].item.price*buyNumber;
+    curtItem.subSaving = itemDetails[n].item.price*(itemDetails[n].count - buyNumber);
+    curtItems.push(curtItem);
+  }
+  return curtItems;
+}
+
+function getBuyNumber(roleType,count) {
+  if (roleType === 'BUY_TWO_GET_ONE_FREE') {
+    return count - Math.floor(count/3);
+  }else {
+    return count;
+  }
+}
+
+function createCurtItems(itemDetails,subcost,subsaving) {
+  var curtItem = new Object();
+  curtItem.details = itemDetails;
+  curtItem.subcost = subcost;
+  curtItem.subsaving = subsaving;
+  return curtItem;
+}
+
+function getRole(barcode,promotions) {
+  for (var role in promotions) {
+    var barcodes = promotions[role].barcodes;
+    for (var code in barcodes) {
+      if (barcodes[code] === barcode) {
+        return promotions[role].type;
+      }
+    }
+  }
+}
