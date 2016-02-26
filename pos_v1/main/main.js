@@ -1,7 +1,7 @@
 function countNumber(tags) {
   var shopList = {};
 
-  tags.forEach( function(tag){
+  tags.forEach( function(tag) {
 
     var splitTagArr = tag.split("-");
     var barCode = splitTagArr[0];
@@ -25,7 +25,7 @@ function getItemsDetail(shopList) {
   for (var barcode in shopList) {
     var itemDetail = {};
 
-    items.forEach( function(item) {
+    items.forEach(function(item) {
       if (barcode === item.barcode) {
         itemDetail.item = item;
         itemDetail.count = shopList[barcode];
@@ -43,28 +43,25 @@ function saleCalculate(shopListDetail) {
   var promotions = loadPromotions();
   var cartItems = [];
 
-  shopListDetail.forEach( function (payedItem){
-
-    var barcode = payedItem.item.barcode;
-    var buyNumber = getBuyNumber(getRole(barcode, promotions), payedItem.count);
+  shopListDetail.forEach(function (payedItem) {
     var cartItem = {};
+    var barcode = payedItem.item.barcode;
     var price = payedItem.item.price;
+    var count = payedItem.count;
+
+    var role = getRole(barcode, promotions);
+    var buyNumber = getBuyNumber(role, count);
 
     cartItem.details = payedItem;
     cartItem.subCost = price * buyNumber;
-    cartItem.subSaving = price * (payedItem.count - buyNumber);
+    cartItem.subSaving = price * (count - buyNumber);
 
     cartItems.push(cartItem);
   });
   return cartItems;
 }
 
-function formatNumber(number) {
-  var formatNumber = new Number(number);
-  return formatNumber.toFixed(2);
-}
-
-function getBuyNumber(roleType,count) {
+function getBuyNumber(roleType, count) {
   if (roleType === 'BUY_TWO_GET_ONE_FREE') {
     return count - Math.floor(count/3);
   }else {
@@ -76,15 +73,11 @@ function getRole(barcode, promotions) {
   var type;
 
   promotions.forEach(function (promotion) {
-
     var promotionBarcodes = promotion.barcodes;
-
     promotionBarcodes.forEach(function (promotionBarcode) {
-
       if (barcode === promotionBarcode) {
         type = promotion.type;
       }
-
     });
   });
   return type;
@@ -95,7 +88,7 @@ function getReceipt(cartItems) {
   var totalSaving = 0;
   var receipt = '***<没钱赚商店>收据***\n' ;
 
-  cartItems.forEach( function(cartItem){
+  cartItems.forEach(function(cartItem) {
     receipt += printDetails(cartItem);
     totalCost += cartItem.subCost;
     totalSaving += cartItem.subSaving;
@@ -116,11 +109,15 @@ function printDetails(curtItem) {
     '，小计：' + formatNumber(curtItem.subCost) + '(元)\n';
 }
 
+function formatNumber(number) {
+  return parseFloat(number).toFixed(2);
+}
+
 function printReceipt(inputs) {
   var shopList = countNumber(inputs);
   var shopListDetail = getItemsDetail(shopList);
   var cartItem = saleCalculate(shopListDetail);
   var receipt = getReceipt(cartItem);
-  
+
   console.log(receipt);
 }
