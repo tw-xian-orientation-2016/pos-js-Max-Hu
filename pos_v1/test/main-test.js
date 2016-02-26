@@ -44,7 +44,10 @@ describe('pos', function() {
   });
 
   it('should get item detail correctly', function() {
-    var items = getItemsDetail(countNumber(inputs));
+
+    var shopList = {ITEM000001:5,ITEM000003:2,ITEM000005:3};
+
+    var items = getItemsDetail(shopList);
     var itemList = loadAllItems();
     expect(items[0].item.name).toEqual(itemList[1].name);
     expect(items[1].item.name).toEqual(itemList[3].name);
@@ -52,14 +55,88 @@ describe('pos', function() {
   });
 
   it('should get item subtotal correctly', function() {
-    var curtItems = saleCalculate(getItemsDetail(countNumber(inputs)));
+    var shopListDetail = [
+      {
+        count: 5,
+        item: {
+          barcode: 'ITEM000001',
+          name: '雪碧',
+          unit: '瓶',
+          price: 3.00
+        }
+      },
+      {
+        count: 2,
+        item:{
+          barcode: 'ITEM000003',
+          name: '荔枝',
+          unit: '斤',
+          price: 15.00
+        }
+      },
+      {
+        count: 3,
+        item:{
+          barcode: 'ITEM000005',
+          name: '方便面',
+          unit: '袋',
+          price: 4.50
+        }
+      }];
+
+    var curtItems = saleCalculate(shopListDetail);
+
     expect(curtItems[0].subCost).toEqual(12);
     expect(curtItems[1].subCost).toEqual(30);
     expect(curtItems[2].subCost).toEqual(9);
   });
 
   it('should get receipt correctly', function() {
-    var receipt = getReceipt(saleCalculate(getItemsDetail(countNumber(inputs))));
+
+    var cartItem = [
+      {
+        subCost: 12,
+        subSaving: 3,
+        details: {
+          count: 5,
+          item: {
+            barcode: 'ITEM000001',
+            name: '雪碧',
+            unit: '瓶',
+            price: 3.00
+          }
+        },
+      },
+      {
+        subCost: 30,
+        subSaving: 0,
+        details: {
+          count: 2,
+          item:{
+            barcode: 'ITEM000003',
+            name: '荔枝',
+            unit: '斤',
+            price: 15.00
+          }
+        }
+      },
+      {
+        subCost: 9,
+        subSaving: 4.5,
+        details: {
+          count: 3,
+          item:{
+            barcode: 'ITEM000005',
+            name: '方便面',
+            unit: '袋',
+            price: 4.50
+          }
+        }
+      }
+    ];
+
+    var receipt = getReceipt(cartItem);
+
     var expectText =
       '***<没钱赚商店>收据***\n' +
       '名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)\n' +
