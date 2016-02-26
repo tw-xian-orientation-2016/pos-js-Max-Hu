@@ -8,7 +8,7 @@ function countNumber(tags) {
 
     if (splitTagArr[1]) {
       shopList[barCode] = parseFloat(splitTagArr[1]);
-    }else {
+    } else {
       var existBarCode = shopList[barCode];
       existBarCode? shopList[barCode] += 1 : shopList[barCode] = 1 ;
     }
@@ -24,7 +24,6 @@ function getItemsDetail(shopList) {
 
   for (var barcode in shopList) {
     var itemDetail = {};
-
     items.forEach(function(item) {
       if (barcode === item.barcode) {
         itemDetail.item = item;
@@ -33,8 +32,8 @@ function getItemsDetail(shopList) {
         shopListDetail.push(itemDetail);
       }
     });
-
   }
+
   return shopListDetail;
 }
 
@@ -46,25 +45,27 @@ function saleCalculate(shopListDetail) {
   shopListDetail.forEach(function (payedItem) {
     var cartItem = {};
     var barcode = payedItem.item.barcode;
-    var price = payedItem.item.price;
     var count = payedItem.count;
 
     var role = getRole(barcode, promotions);
     var buyNumber = getBuyNumber(role, count);
 
-    cartItem.details = payedItem;
+    var price = payedItem.item.price;
+
     cartItem.subCost = price * buyNumber;
     cartItem.subSaving = price * (count - buyNumber);
+    cartItem.details = payedItem;
 
     cartItems.push(cartItem);
   });
+
   return cartItems;
 }
 
 function getBuyNumber(roleType, count) {
   if (roleType === 'BUY_TWO_GET_ONE_FREE') {
     return count - Math.floor(count/3);
-  }else {
+  } else {
     return count;
   }
 }
@@ -75,11 +76,10 @@ function getRole(barcode, promotions) {
   promotions.forEach(function (promotion) {
     var promotionBarcodes = promotion.barcodes;
     promotionBarcodes.forEach(function (promotionBarcode) {
-      if (barcode === promotionBarcode) {
-        type = promotion.type;
-      }
+      if (barcode === promotionBarcode) type = promotion.type;
     });
   });
+
   return type;
 }
 
@@ -99,14 +99,15 @@ function getReceipt(cartItems) {
     '总计：' + formatNumber(totalCost) + '(元)\n' +
     '节省：' + formatNumber(totalSaving) + '(元)\n' +
     '**********************';
+
   return receipt;
 }
 
 function printDetails(curtItem) {
-  return '名称：' + curtItem.details.item.name +
-    '，数量：' + curtItem.details.count + curtItem.details.item.unit +
-    '，单价：' + formatNumber(curtItem.details.item.price) + '(元)' +
-    '，小计：' + formatNumber(curtItem.subCost) + '(元)\n';
+  return '名称：' + curtItem.details.item.name + '，' +
+    '数量：' + curtItem.details.count + curtItem.details.item.unit + '，' +
+    '单价：' + formatNumber(curtItem.details.item.price) + '(元)' + '，' +
+    '小计：' + formatNumber(curtItem.subCost) + '(元)\n';
 }
 
 function formatNumber(number) {

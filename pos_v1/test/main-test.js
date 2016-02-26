@@ -19,7 +19,7 @@ describe('pos', function() {
       'ITEM000005'
     ];
 
-    shopList = {ITEM000001:5,ITEM000003:2,ITEM000005:3};
+    shopList = { ITEM000001: 5, ITEM000003: 2, ITEM000005: 3 };
 
     shopListDetail = [
       {
@@ -33,7 +33,7 @@ describe('pos', function() {
       },
       {
         count: 2,
-        item:{
+        item: {
           barcode: 'ITEM000003',
           name: '荔枝',
           unit: '斤',
@@ -42,7 +42,7 @@ describe('pos', function() {
       },
       {
         count: 3,
-        item:{
+        item: {
           barcode: 'ITEM000005',
           name: '方便面',
           unit: '袋',
@@ -69,7 +69,7 @@ describe('pos', function() {
         subSaving: 0,
         details: {
           count: 2,
-          item:{
+          item: {
             barcode: 'ITEM000003',
             name: '荔枝',
             unit: '斤',
@@ -82,7 +82,7 @@ describe('pos', function() {
         subSaving: 4.5,
         details: {
           count: 3,
-          item:{
+          item: {
             barcode: 'ITEM000005',
             name: '方便面',
             unit: '袋',
@@ -119,15 +119,12 @@ describe('pos', function() {
   });
 
   it('should get item detail correctly', function() {
-
     var outputs = getItemsDetail(shopList);
     expect(outputs).toEqual(shopListDetail);
   });
 
   it('should get item subtotal correctly', function() {
-
     var outputs = saleCalculate(shopListDetail);
-
     expect(outputs).toEqual(cartItem);
   });
 
